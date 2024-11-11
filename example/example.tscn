@@ -118,7 +118,12 @@ offset_right = 1418.0
 offset_bottom = 700.0
 script = ExtResource("3_7f8qk")
 card_pile_ui = NodePath("../CardPileUI")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
 can_drag_top_card = false
+held_card_direction = null
+layout = null
 metadata/_edit_group_ = true
 
 [node name="TextureRect" type="TextureRect" parent="CardDropzone_Discard"]
@@ -150,6 +155,12 @@ offset_bottom = 356.0
 script = ExtResource("4_cyr6y")
 accept_suit = "D"
 card_pile_ui = NodePath("../CardPileUI")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
+can_drag_top_card = null
+held_card_direction = null
+layout = null
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
@@ -181,6 +192,12 @@ offset_bottom = 353.0
 script = ExtResource("4_cyr6y")
 accept_suit = "H"
 card_pile_ui = NodePath("../CardPileUI")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
+can_drag_top_card = null
+held_card_direction = null
+layout = null
 metadata/_edit_group_ = true
 
 [node name="TextureRect" type="TextureRect" parent="CardDropzone_Hearts"]
@@ -212,6 +229,11 @@ offset_bottom = 356.0
 script = ExtResource("4_cyr6y")
 accept_suit = "C"
 card_pile_ui = NodePath("../CardPileUI")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
+can_drag_top_card = null
+held_card_direction = null
 layout = 1
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
@@ -245,6 +267,11 @@ offset_bottom = 353.0
 script = ExtResource("4_cyr6y")
 accept_suit = "S"
 card_pile_ui = NodePath("../CardPileUI")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
+can_drag_top_card = null
+held_card_direction = null
 layout = 2
 metadata/_edit_group_ = true
 

@@ -1,6 +1,9 @@
 extends Node2D
 
 
+@onready var card_pile = $CardPile
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     pass # Replace with function body.
@@ -12,7 +15,7 @@ func _process(delta: float) -> void:
 
 
 func _on_draw_pressed() -> void:
-    pass
+    card_pile.draw(1)
     
 
 

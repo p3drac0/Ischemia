@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://coe76xdo4q4o3"]
+[gd_scene load_steps=6 format=3 uid="uid://coe76xdo4q4o3"]
 
 [ext_resource type="Script" path="res://card_management/card_pile.gd" id="1_c0fwj"]
 [ext_resource type="Script" path="res://card_management/main_scene.gd" id="1_j7gyq"]
 [ext_resource type="PackedScene" uid="uid://elb2pd0o5j2d" path="res://card_management/card.tscn" id="2_ddf8p"]
+[ext_resource type="Script" path="res://example/example__dropzone__discard.gd" id="4_tu5dr"]
+[ext_resource type="Texture2D" uid="uid://bpjxsk1mxfl77" path="res://assets/1x1_#ffffffff.png" id="5_v8n5y"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_j7gyq")
@@ -15,7 +17,7 @@ offset_bottom = 40.0
 script = ExtResource("1_c0fwj")
 json_card_database_path = "res://card_management/card_database.json"
 json_card_collection_path = "res://card_management/card_colection.json"
-extended_card_ui = ExtResource("2_ddf8p")
+extended_card = ExtResource("2_ddf8p")
 
 [node name="Draw" type="Button" parent="."]
 offset_left = 1178.0
@@ -30,6 +32,41 @@ offset_top = 71.0
 offset_right = 747.0
 offset_bottom = 233.0
 text = "DISCARD"
+
+[node name="CardDropzone_Discard" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1331.0
+offset_top = 427.0
+offset_right = 1756.0
+offset_bottom = 971.0
+script = ExtResource("4_tu5dr")
+stack_display_gap = null
+max_stack_display = null
+card_ui_face_up = null
+can_drag_top_card = false
+held_card_direction = null
+layout = null
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="CardDropzone_Discard"]
+modulate = Color(0.137255, 0.137255, 0.137255, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_v8n5y")
+
+[node name="DiscardLabel" type="Label" parent="CardDropzone_Discard"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = -81.0
+offset_right = 168.0
+offset_bottom = -58.0
+text = "Discard"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="Discard" to="." method="_on_discard_pressed"]

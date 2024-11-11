@@ -3,13 +3,13 @@ class_name CardPile extends Control
 signal draw_pile_updated
 signal hand_pile_updated
 signal discard_pile_updated
-signal card_removed_from_dropzone(dropzone : CardDropzone, card: CardUI)
-signal card_added_to_dropzone(dropzone : CardDropzone, card: CardUI)
-signal card_hovered(card: CardUI)
-signal card_unhovered(card: CardUI)
-signal card_clicked(card: CardUI)
-signal card_dropped(card: CardUI)
-signal card_removed_from_game(card: CardUI)
+signal card_removed_from_dropzone(dropzone : CardDropzone, card: Card)
+signal card_added_to_dropzone(dropzone : CardDropzone, card: Card)
+signal card_hovered(card: Card)
+signal card_unhovered(card: Card)
+signal card_clicked(card: Card)
+signal card_dropped(card: Card)
+signal card_removed_from_game(card: Card)
 
 enum Piles {
     draw_pile,
@@ -26,7 +26,7 @@ enum PilesCardLayouts {
 
 @export_file("*.json") var json_card_database_path : String
 @export_file("*.json") var json_card_collection_path : String
-@export var extended_card_ui : PackedScene
+@export var extended_card : PackedScene
 
 @export_group("Pile Positions")
 @export var draw_pile_position = Vector2(20, 460)
@@ -52,7 +52,7 @@ enum PilesCardLayouts {
 @export var hand_face_up := true
 @export var max_hand_size := 10 # if any more cards are added to the hand, they are immediately discarded
 @export var max_hand_spread := 700
-@export var card_ui_hover_distance := 30
+@export var card_hover_distance := 30
 @export var drag_when_clicked := true
 ## This works best as a 2-point linear rise from -X to +X
 @export var hand_rotation_curve : Curve
@@ -78,7 +78,7 @@ var spread_curve := Curve.new()
 
 
 # this is really the only way we should move cards between piles
-func set_card_pile(card : CardUI, pile : Piles):
+func set_card_pile(card : Card, pile : Piles):
     _maybe_remove_card_from_any_piles(card)
     _maybe_remove_card_from_any_dropzones(card)
     if pile == Piles.discard_pile:
@@ -92,14 +92,14 @@ func set_card_pile(card : CardUI, pile : Piles):
         emit_signal("draw_pile_updated")
     reset_target_positions()
     
-func set_card_dropzone(card : CardUI, dropzone : CardDropzone):
+func set_card_dropzone(card : Card, dropzone : CardDropzone):
     _maybe_remove_card_from_any_piles(card)
     _maybe_remove_card_from_any_dropzones(card)
     dropzone.add_card(card)
     emit_signal("card_added_to_dropzone", dropzone, card)
     reset_target_positions()
     
-func remove_card_from_game(card : CardUI):
+func remove_card_from_game(card : Card):
     _maybe_remove_card_from_any_piles(card)
     _maybe_remove_card_from_any_dropzones(card)
     emit_signal("card_removed_from_game", card)
@@ -138,7 +138,7 @@ func get_card_pile_size(pile : Piles):
     
 
 
-func _maybe_remove_card_from_any_piles(card : CardUI):
+func _maybe_remove_card_from_any_piles(card : Card):
     if _hand_pile.find(card) != -1:
         _hand_pile.erase(card)
         emit_signal("hand_pile_updated")
@@ -152,12 +152,12 @@ func _maybe_remove_card_from_any_piles(card : CardUI):
 
 
 func create_card_in_dropzone(nice_name : String, dropzone : CardDropzone):
-    var card_ui = _create_card_ui(_get_card_data_by_card_name(nice_name))
+    var card_ui = _create_card(_get_card_data_by_card_name(nice_name))
     card_ui.position = dropzone.position
     set_card_dropzone(card_ui, dropzone)
             
 func create_card_in_pile(nice_name : String, pile_to_add_to : Piles):
-    var card_ui = _create_card_ui(_get_card_data_by_card_name(nice_name))
+    var card_ui = _create_card(_get_card_data_by_card_name(nice_name))
     if pile_to_add_to == Piles.hand_pile:
         card_ui.position = hand_pile_position
     if pile_to_add_to == Piles.discard_pile:
@@ -167,7 +167,7 @@ func create_card_in_pile(nice_name : String, pile_to_add_to : Piles):
     set_card_pile(card_ui, pile_to_add_to)
 
 
-func _maybe_remove_card_from_any_dropzones(card : CardUI):
+func _maybe_remove_card_from_any_dropzones(card : Card):
     var all_dropzones := []
     _get_dropzones(get_tree().get_root(), "CardDropzone", all_dropzones)
     for dropzone in all_dropzones:
@@ -175,7 +175,7 @@ func _maybe_remove_card_from_any_dropzones(card : CardUI):
             dropzone.remove_card(card)
             emit_signal("card_removed_from_dropzone", dropzone, card)
 
-func get_card_dropzone(card : CardUI):
+func get_card_dropzone(card : Card):
     var all_dropzones := []
     _get_dropzones(get_tree().get_root(), "CardDropzone", all_dropzones)
     for dropzone in all_dropzones:
@@ -215,7 +215,7 @@ func _reset_card_collection():
         remove_card_from_game(child)
     for nice_name in card_collection:
         var card_data = _get_card_data_by_card_name(nice_name)
-        var card_ui = _create_card_ui(card_data)
+        var card_ui = _create_card(card_data)
         _draw_pile.push_back(card_ui)
         _draw_pile.shuffle()
     _set_draw_pile_target_positions(true)
@@ -380,23 +380,23 @@ func sort_hand(sort_func):
     _hand_pile.sort_custom(sort_func)
     reset_target_positions()
 
-func _create_card_ui(json_data : Dictionary):
-    var card_ui = extended_card_ui.instantiate()
-    card_ui.frontface_texture = json_data.texture_path
-    card_ui.return_speed = card_return_speed
-    card_ui.hover_distance = card_ui_hover_distance
-    card_ui.drag_when_clicked = drag_when_clicked
+func _create_card(json_data : Dictionary):
+    var card = extended_card.instantiate()
+    card.frontface_texture = json_data.texture_path
+    card.return_speed = card_return_speed
+    card.hover_distance = card_hover_distance
+    card.drag_when_clicked = drag_when_clicked
 
-    card_ui.card_data = ResourceLoader.load(json_data.resource_script_path).new()
+    card.card_data = ResourceLoader.load(json_data.resource_script_path).new()
     for key in json_data.keys():
         if key != "texture_path" and key != "backface_texture_path" and key != "resource_script_path":
-            card_ui.card_data[key] = json_data[key]
-    card_ui.connect("card_hovered", func(c_ui): emit_signal("card_hovered", c_ui))
-    card_ui.connect("card_unhovered", func(c_ui): emit_signal("card_unhovered", c_ui))
-    card_ui.connect("card_clicked", func(c_ui): emit_signal("card_clicked", c_ui))
-    card_ui.connect("card_dropped", func(c_ui): emit_signal("card_dropped", c_ui))
-    add_child(card_ui)
-    return card_ui
+            card.card_data[key] = json_data[key]
+    card.connect("card_hovered", func(card): emit_signal("card_hovered", card))
+    card.connect("card_unhovered", func(card): emit_signal("card_unhovered", card))
+    card.connect("card_clicked", func(card): emit_signal("card_clicked", card))
+    card.connect("card_dropped", func(card): emit_signal("card_dropped", card))
+    add_child(card)
+    return card
 
 
 func _get_card_data_by_card_name(card_name : String):
