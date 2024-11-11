@@ -1,0 +1,47 @@
+[
+  {
+    "card_name": "Heart",
+    "texture_path": "res://assets/card_placeholders/card_draws/corazón.png",
+    "resource_script_path": "res://card_management/card_variables.gd",
+    "type": "Organ",
+    "cost": 3,
+    "gives": 0,
+    "description": "Place a Heart in table"
+  },
+  {
+    "card_name": "Lungs",
+    "texture_path": "res://assets/card_placeholders/card_draws/pulmón.png",
+    "resource_script_path": "res://card_management/card_variables.gd",
+    "type": "Organ",
+    "cost": 3,
+    "gives": 0,
+    "description": "Place Lungs in play"
+  },
+  {
+    "card_name": "Stomach",
+    "texture_path": "res://assets/card_placeholders/card_draws/estómago.png",
+    "resource_script_path": "res://card_management/card_variables.gd",
+    "type": "Organ",
+    "cost": 3,
+    "gives": 0,
+    "description": "Place a Stomach in play"
+  },
+  {
+    "card_name": "Intestine",
+    "texture_path": "res://assets/card_placeholders/card_draws/intestino.png",
+    "resource_script_path": "res://card_management/card_variables.gd",
+    "type": "Organ",
+    "cost": 3,
+    "gives": 0,
+    "description": "Place an Intestine in play"
+  },
+  {
+    "card_name": "Brain",
+    "texture_path": "res://assets/card_placeholders/card_draws/brain.png",
+    "resource_script_path": "res://card_management/card_variables.gd",
+    "type": "Organ",
+    "cost": 3,
+    "gives": 0,
+    "description": "Place a Brain in play"
+  }
+]

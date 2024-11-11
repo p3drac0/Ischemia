@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://coe76xdo4q4o3"]
+
+[ext_resource type="Script" path="res://card_management/card_pile.gd" id="1_c0fwj"]
+[ext_resource type="Script" path="res://card_management/main_scene.gd" id="1_j7gyq"]
+[ext_resource type="PackedScene" uid="uid://elb2pd0o5j2d" path="res://card_management/card.tscn" id="2_ddf8p"]
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource("1_j7gyq")
+
+[node name="CardPile" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_c0fwj")
+json_card_database_path = "res://card_management/card_database.json"
+json_card_collection_path = "res://card_management/card_colection.json"
+extended_card_ui = ExtResource("2_ddf8p")
+
+[node name="Draw" type="Button" parent="."]
+offset_left = 1178.0
+offset_top = 74.0
+offset_right = 1749.0
+offset_bottom = 247.0
+text = "DRAW"
+
+[node name="Discard" type="Button" parent="."]
+offset_left = 139.0
+offset_top = 71.0
+offset_right = 747.0
+offset_bottom = 233.0
+text = "DISCARD"
+
+[connection signal="pressed" from="Draw" to="." method="_on_draw_pressed"]
+[connection signal="pressed" from="Discard" to="." method="_on_discard_pressed"]

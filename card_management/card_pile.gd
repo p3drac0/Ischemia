@@ -1,4 +1,4 @@
-class_name CardPileUI extends Control
+class_name CardPile extends Control
 
 signal draw_pile_updated
 signal hand_pile_updated
@@ -152,12 +152,12 @@ func _maybe_remove_card_from_any_piles(card : CardUI):
 
 
 func create_card_in_dropzone(nice_name : String, dropzone : CardDropzone):
-    var card_ui = _create_card_ui(_get_card_data_by_nice_name(nice_name))
+    var card_ui = _create_card_ui(_get_card_data_by_card_name(nice_name))
     card_ui.position = dropzone.position
     set_card_dropzone(card_ui, dropzone)
             
 func create_card_in_pile(nice_name : String, pile_to_add_to : Piles):
-    var card_ui = _create_card_ui(_get_card_data_by_nice_name(nice_name))
+    var card_ui = _create_card_ui(_get_card_data_by_card_name(nice_name))
     if pile_to_add_to == Piles.hand_pile:
         card_ui.position = hand_pile_position
     if pile_to_add_to == Piles.discard_pile:
@@ -214,7 +214,7 @@ func _reset_card_collection():
         _maybe_remove_card_from_any_dropzones(child)
         remove_card_from_game(child)
     for nice_name in card_collection:
-        var card_data = _get_card_data_by_nice_name(nice_name)
+        var card_data = _get_card_data_by_card_name(nice_name)
         var card_ui = _create_card_ui(card_data)
         _draw_pile.push_back(card_ui)
         _draw_pile.shuffle()
@@ -383,7 +383,6 @@ func sort_hand(sort_func):
 func _create_card_ui(json_data : Dictionary):
     var card_ui = extended_card_ui.instantiate()
     card_ui.frontface_texture = json_data.texture_path
-    card_ui.backface_texture = json_data.backface_texture_path
     card_ui.return_speed = card_return_speed
     card_ui.hover_distance = card_ui_hover_distance
     card_ui.drag_when_clicked = drag_when_clicked
@@ -400,8 +399,8 @@ func _create_card_ui(json_data : Dictionary):
     return card_ui
 
 
-func _get_card_data_by_nice_name(nice_name : String):
+func _get_card_data_by_card_name(card_name : String):
     for json_data in card_database:
-        if json_data.nice_name == nice_name:
+        if json_data.card_name == card_name:
             return json_data
     return null

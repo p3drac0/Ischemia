@@ -5,7 +5,7 @@ class_name ExampleCardUIData extends CardUIData
 @export var description : String
 
 func upgrade():
-	pass
+    pass
 
 func format_description():
-	return description
+    return description
