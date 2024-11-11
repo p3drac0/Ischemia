@@ -8,8 +8,8 @@ signal card_clicked(card: CardUI)
 signal card_dropped(card: CardUI)
 
 
-@onready var frontface = $FrontFace
-@onready var backface = $BackFace
+@onready var frontface = $Frontface
+@onready var backface = $Backface
 
 
 @export var card_data : CardUIData
@@ -149,8 +149,8 @@ var last_child_count = 0
 
 func _get_configuration_warnings():
     if get_child_count() != 2:
-        return [ "This node must have 2 TextureRect as children, one named `FrontFace` and one named `BackFace`." ]
+        return [ "This node must have 2 TextureRect as children, one named `Frontface` and one named `Backface`." ]
     for child in get_children():
-        if not child is TextureRect or (child.name != "FrontFace" and child.name != "BackFace"):
-            return [ "This node must have 2 TextureRect as children, one named `FrontFace` and one named `BackFace`." ]
+        if not child is TextureRect or (child.name != "Frontface" and child.name != "Backface"):
+            return [ "This node must have 2 TextureRect as children, one named `Frontface` and one named `Backface`." ]
     return []
